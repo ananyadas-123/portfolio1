@@ -3,82 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Portfolio</title>
 </head>
+
 <body>
+
+  <div id="profile"></div>
+
+  <div id="skills"></div>
+
+  <div id="projects"></div>
 
   <script>
 
-(async function () {
+    (async function () {
 
+      const response = await fetch("portfolio.json");
 
-    const response = await fetch("portfolio.json");
+      const data = await response.json();
 
-    const data = await response.json();
+      // Personal Info
+      document.getElementById("profile").innerHTML = `
+        <h1>${data.personalInfo.name}</h1>
 
-    // Personal Info
-    document.getElementById("profile").innerHTML = `
-      <h1>${data.personalInfo.name}</h1>
+        <h2>${data.personalInfo.title}</h2>
 
-      <h2>${data.personalInfo.title}</h2>
+        <p>${data.personalInfo.about}</p>
 
-      <p>${data.personalInfo.about}</p>
-
-      <img 
-        src="${data.personalInfo.image}" 
-        width="200"
-      >
-    `;
-
-    // Skills
-    let skillsHTML = `
-      <h2>Skills</h2>
-      <ul>
-    `;
-
-    data.skills.forEach(skill => {
-
-      skillsHTML += `
-        <li>${skill}</li>
+        <img 
+          src="${data.personalInfo.image}" 
+          width="200"
+        >
       `;
 
-    });
-
-    skillsHTML += `</ul>`;
-
-    document.getElementById("skills").innerHTML = skillsHTML;
-
-    // Projects
-    let projectHTML = `
-      <h2>Projects</h2>
-    `;
-
-    data.projects.forEach(project => {
-
-      projectHTML += `
-        <div>
-
-          <h3>${project.title}</h3>
-
-          <p>${project.description}</p>
-
-          <a 
-            href="${project.github}" 
-            target="_blank"
-          >
-            View Project
-          </a>
-
-        </div>
+      // Skills
+      let skillsHTML = `
+        <h2>Skills</h2>
+        <ul>
       `;
 
-    });
+      data.skills.forEach(skill => {
 
-    document.getElementById("projects").innerHTML = projectHTML;
+        skillsHTML += `
+          <li>${skill}</li>
+        `;
 
-})();
+      });
 
-</script>
-  
+      skillsHTML += `</ul>`;
+
+      document.getElementById("skills").innerHTML = skillsHTML;
+
+      // Projects
+      let projectHTML = `
+        <h2>Projects</h2>
+      `;
+
+      data.projects.forEach(project => {
+
+        projectHTML += `
+          <div>
+
+            <h3>${project.title}</h3>
+
+            <p>${project.description}</p>
+
+            <a 
+              href="${project.github}" 
+              target="_blank"
+            >
+              View Project
+            </a>
+
+          </div>
+        `;
+
+      });
+
+      document.getElementById("projects").innerHTML = projectHTML;
+
+    })();
+
+  </script>
+
 </body>
 </html>
